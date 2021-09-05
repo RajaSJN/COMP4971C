@@ -20,4 +20,5 @@ with open('src/filtered.csv', newline='') as csvfile:
         # print(row)
 dates.sort()
 print("Below is first date")
+#from this we can see CDC data tells us first case was 22nd Jan 2020
 print(dates[0])

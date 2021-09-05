@@ -4,7 +4,7 @@ import pandas as pd
 from matplotlib import pyplot as plt
 from pandas.core.arrays.integer import Int16Dtype
 from sodapy import Socrata
-# in place of application token, and no username or password:
+
 client = Socrata("data.cdc.gov", None)
 # First 2000 results, returned as JSON from API / converted to Python list of
 # dictionaries by sodapy.
@@ -16,13 +16,14 @@ results_df = results_df.sort_values(by='submission_date')
 # results_df.to_excel('/home/siddarth/COMP4971C/src/filtered.xlsx')
 #to filter based on column
 # print(results_df)
+#[::20] will be used as a basic smoothening factor for the curve    
 new_cases = results_df['new_case'][::20]
 dates = results_df['submission_date'][::20]
 # print(new_cases.cat)
 print(type(new_cases))
 # new_cases= new_cases.values
 # dates = dates.values
-print(new_cases)
+print(new_cases.values)
 print(dates)
 # results_df.reindex(new_cases)
 results_df.to_csv('/home/siddarth/COMP4971C/src/filtered.csv')
@@ -35,3 +36,11 @@ print(vaccine_df)
 x=dates.values.tolist()
 print("this is x ")
 print(len(x))
+temp = []
+for i in new_cases.values:
+    temp.append(float(i))
+new = pd.Series(temp, index=dates)
+print(new.plot())
+# plt.plot(dates, new_cases)
+plt.show()
+# results_df.plot()
