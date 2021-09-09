@@ -56,6 +56,7 @@ Nvidia = yf.download(tickers='NVDA', start="2020-01-22", interval='1d')
 Amd = yf.download(tickers='AMD', start="2020-01-22", interval='1d')
 Ubisoft = yf.download(tickers='UBI', start="2020-01-22", interval='1d')
 Activision = yf.download(tickers='ATVI', start="2020-01-22", interval='1d')
+Tesla = yf.download(tickers='TSLA',start="2020-01-22", interval='1d')
 plot3.suptitle('NYSE Data', fontsize=10)
 plt.xlabel('Date', fontsize=10)
 print(Nvidia)
@@ -63,6 +64,7 @@ plt.plot(Nvidia['Adj Close'])
 plt.plot(Amd['Adj Close'])
 plt.plot(Ubisoft['Adj Close'])
 plt.plot(Activision['Adj Close'])
+plt.plot(Tesla['Adj Close'])
 print(len(Nvidia['Adj Close'].values))
 print(len(results_df['new_case'].values))
 #since not all days in the year are trading days, we have to filter out non trading days data for analysis, no data on weekends
@@ -72,16 +74,26 @@ print(type(Nvidia.index[0]))
 print(results_df['submission_date'][0][0:10:1])
 print(str(Nvidia.index[0])[0:10:1])
 print(str(Nvidia.index[0])[0:10:1]==results_df['submission_date'][0][0:10:1])
-for i in results_df:
+print(type(results_df['submission_date']))
+temp = results_df['submission_date'].to_list()
+casesList = results_df['new_case'].to_list()
+print(casesList)
+counter =-1
+filteredDates = []
+for i in temp:
+    counter +=1
     for j in Nvidia.index:
         value = str(j)[0:10:1]
-        print(i)
-        if (j == i[0:10:1]):
-            filteredNewCases.append(i['new_case'])
+        if (value == i[0:10:1]):
+            filteredNewCases.append(float(casesList[counter]))
+            filteredDates.append(i)
             break
-print(filteredNewCases)
-# pearsCor, _ = pearsonr(Nvidia['Adj Close'].values, results_df['new_case'].values)
-# spearCor, _ = spearmanr(Nvidia['Adj Close'].values, results_df['new_case'].values)
-# print("The pearson is " +str(pearsCor) + "The spearmen is "+ str(spearCor))
+print(len(filteredNewCases))
+print(len(Nvidia['Adj Close'].values))
+print(filteredDates)
+NvidiaStockValues = Nvidia['Adj Close'].values
+pearsCor, _ = pearsonr(NvidiaStockValues[0:len(filteredNewCases)], filteredNewCases)
+spearCor, _ = spearmanr(NvidiaStockValues[0:len(filteredNewCases)], filteredNewCases)
+print("The pearson is " +str(pearsCor) + "The spearmen is "+ str(spearCor))
 #The following line is required to actually display the graphs
-# plt.show()
+plt.show()
