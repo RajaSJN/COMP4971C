@@ -6,7 +6,8 @@ import json
 import requests
 sia = SentimentIntensityAnalyzer()
 # url = f"https://api.pushshift.io/reddit/search/comment/?author=MockDeath&sort=asc&size=100"
-url = f"https://api.pushshift.io/reddit/search/comment/?q=science&subreddit=wallstreetbets&size=100"
+#all you have to do is just create multiple requests, split into sizes of 100 days max
+url = f"https://api.pushshift.io/reddit/search/comment/?q=science&subreddit=wallstreetbets&after=365d&size=100"
 request=requests.get(url)
 #this gives the json as a python dictionary
 json_response = request.json()
@@ -22,7 +23,9 @@ print(len(comments))
 # #lets gooo
 # print(comments[0]["body"])
 # print(sia.polarity_scores("Wow, Sid is great!"))
-# print(sia.polarity_scores(comments[0]["body"])['compound'])
+print(sia.polarity_scores("This is so sucky"))
+from datetime import datetime
+print(datetime.fromtimestamp(comments[0]["created_utc"]))
 totalPolarity = 0.0
 for i in comments:
     totalPolarity+= sia.polarity_scores(comments[0]["body"])['compound'] 
