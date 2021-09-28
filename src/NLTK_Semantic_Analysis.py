@@ -45,6 +45,8 @@ for j in range(0,1):
         datePosting.append(count)
         print(comments[j][count]["body"])
         compoundPolarity.append(sia.polarity_scores(comments[j][count]["body"])['compound'])
+        tempDate= comments[j][count]["created_utc"]
+        print(str(tempDate))
         count +=1
 print(totalPolarity/count)
 print(count)
@@ -53,3 +55,6 @@ print(datePosting)
 # plt.ylim(-0.3600, -0.3612)
 plt.show()
 #there is a key 'created_utc' which can be used to find out which date a post was posted    
+#put in fake data for checking if the algorithm is working correctly 
+#look at trump post
+#chart and see tuned sell and buy points
