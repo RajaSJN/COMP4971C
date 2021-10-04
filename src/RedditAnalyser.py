@@ -33,9 +33,9 @@ def semantic_analysis(titles, count):
 def psaw_search():
     # starting from the first covid case date in the USA
     #initial is 2020 1, 22
-    start_time = int(datetime(2021, 3, 22).timestamp())
+    start_time = int(datetime(2021, 1, 22).timestamp())
     # end training time for the time of the last day of summer
-    end_time = int(datetime(2021, 4, 22).timestamp())
+    end_time = int(datetime(2021, 3, 22).timestamp())
     submissions = api.search_submissions(after=start_time, before=end_time,
                        subreddit='wallstreetbets', filter=['score', 'title', 'author'])
     temp = []
@@ -46,7 +46,7 @@ def psaw_search():
         temp.append(submission)
     df = pd.DataFrame(temp)
     # print(df)
-    df.to_csv('March-April2021.csv')
+    df.to_csv('Jan-March2021.csv')
     return
 
 
